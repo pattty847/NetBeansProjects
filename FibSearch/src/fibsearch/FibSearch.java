@@ -30,7 +30,6 @@ public class FibSearch {
         /*
             fib(n) = fib(n-1) + fib(n-2)
             fib(5) = fib(4) + fib(3) + fib(2) + fib(1)
-            complexity = 
         */
         return fibRec(n-1) + fibRec(n-2); 
     }
@@ -38,7 +37,7 @@ public class FibSearch {
     // fibIter - calculate the nth fibonacci index through method of iteration
     public static long fibIter(long n) {
         // Fibonacci starting state 
-        int a = 0, b = 1, c = 1;
+        int a, b = 1, c = 1;
         if(n <= 1) {
             return n;
         }
@@ -61,7 +60,7 @@ public class FibSearch {
                 + "\n'find iter' (search for nth fibonacci number by iteration)"
                 + "\n'compare' (compare both methods and their times)"
                 + "\n'auto compare' (auto compare methods with predefined test case)"
-                + "\n'auto compare rand' (auto compare methods with random test cases <= 50)"
+                + "\n'auto compare rand' (auto compare methods with random test cases <= 45)"
                 + "\n'close'");
         // Their input is set to n later, so we initialize it with a 0
         int n = 0;
@@ -105,7 +104,7 @@ public class FibSearch {
             // End find iter
             case "compare": // recursive to iteration
                 while(n <= 0) {
-                    System.out.println("Enter a number > 0 \n>");
+                    System.out.print("Enter a number > 0 \n>");
                     n = Integer.parseInt(input.nextLine());
                 }
                 System.out.println("Calculating with iteration..." + " | [" + n + "]");
@@ -114,8 +113,9 @@ public class FibSearch {
                 System.out.println("Calculating with recursion..." + " | [" + n + "]");
                 long startRec = System.nanoTime(); // Start time for recursion
                 System.out.print("fib(" + n + ") = " + fibRec(n) + "    Time: " + (System.nanoTime() - startRec) + "ns\n");
+                loadUserOptions();
             // End compare functions
-            case "auto compare":
+            case "auto compare": // Auto compare methods by array
                 int[] testCase = {5, 8, 9, 4, 14, 20, 24, 30, 36, 40, 44, 45, 47, 50};
                 for(int i = 0; i < testCase.length; i++) {
                     System.out.println("---------------------------------------------------------");
@@ -126,14 +126,17 @@ public class FibSearch {
                     long startRec2 = System.nanoTime(); // Start time for recursion
                     System.out.print("fib(" + testCase[i] + ") = " + fibRec(testCase[i]) + "    Time: " + (System.nanoTime() - startRec2) + "ns\n");
                 }
-            case "auto compare rand":
+                loadUserOptions();
+            // End auto compare
+            case "auto compare rand": // Auto compare methods by random integers
                 while(n <= 0) {
-                    System.out.println("Enter a number of test cases > 0 \n>");
+                    System.out.print("Enter a number of test cases > 0 \n>");
                     n = Integer.parseInt(input.nextLine());
                 }
+                // Create a new random number object
                 Random rand = new Random();
                 for(int i = 0; i < n; i++) {
-                    int randTest = rand.nextInt(50) + 1;
+                    int randTest = rand.nextInt(45) + 1; // random number between 1-45
                     System.out.println("---------------------------------------------------------");
                     System.out.println("Calculating with iteration..." + " | [" + randTest + "]");
                     long startIter3 = System.nanoTime(); // Start time for iteration
@@ -142,6 +145,8 @@ public class FibSearch {
                     long startRec3 = System.nanoTime(); // Start time for recursion
                     System.out.print("fib(" + randTest + ") = " + fibRec(randTest) + "    Time: " + (System.nanoTime() - startRec3) + "ns\n");
                 }
+                loadUserOptions();
+            // End auto compare random
             case "close": // Close program
                 System.exit(0);
             default: // recursive call to same method
