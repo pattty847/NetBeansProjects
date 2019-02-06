@@ -6,6 +6,7 @@
 package mathops;
 
 import java.math.*;
+import java.util.Scanner;
 
 /**
  *
@@ -17,33 +18,39 @@ public class MathOPS {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        int[] nums = {3, 5};
-        System.out.println(math(nums, "multi"));
+        doubleNum(14, 1000);
     }
-    
-    public static int math(int[] i, String type) {
-        switch(type) {
-            case "add":
-                int sum = 0;
-                for(int n : i){
-                    sum = sum + n;
-                }
-                return sum;
-            case "sub":
-                int sum1 = 0;
-                for(int n : i){
-                    sum1 = sum1 - n;
-                }
-                return sum1;
-            case "multi":
-                int sum2 = 0;
-                for(int n : i){
-                    sum2 = n * n;
-                }
-                return sum2;
-            default:
-                return 0;
+
+    public static void doubleNum(int num, int times) {
+        int ans = num;
+        for(int i = 0; i < times; i++) {
+            ans += num;
+            System.out.println(ans);
         }
     }
-    
+
+    public static void findLineEquation() {
+        double x1 = 0, y1 = 0, x2 = 0, y2 = 0, m = 0, b = 0;
+        Scanner input = new Scanner(System.in);
+        try {
+            System.out.println("Enter x1: ");
+            x1 = Double.parseDouble(input.nextLine());
+            System.out.println("Enter y1: ");
+            y1 = Double.parseDouble(input.nextLine());
+            System.out.println("Enter x2: ");
+            x2 = Double.parseDouble(input.nextLine());
+            System.out.println("Enter y2: ");
+            y2 = Double.parseDouble(input.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("Enter only integers.");
+        }
+        m = (y2 - y1) / (x2 - x1);
+        // y - k = m (x - h).
+        System.out.println("Slope: " + m);
+        b = y1 - m * x1;
+        System.out.println("Y-intercept: " + b);
+        System.out.println("y = " + m + "(x)" + "+" + b);
+        System.out.println(y1 + " = " + m + "(" + x1 + ")" + "+" + b);
+    }
+
 }

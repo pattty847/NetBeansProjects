@@ -3,21 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package logic.gates;
+package nodes;
 
 /**
  *
  * @author pattt
  */
-public class LogicGates {
+public class Nodes {
 
     /**
      * @param args the command line arguments
      */
-    
-    
     public static void main(String[] args) {
-        Gates gates = new Gates();
+        // TODO code application logic here
     }
     
 }
