@@ -18,7 +18,7 @@ public class MathOPS {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        findLineEquation();
+        foil();
     }
 
     public static void doubleNum(int num, int times) {
@@ -55,19 +55,21 @@ public class MathOPS {
     }
     
     public static void foil() {
-        double x1 = 0, y1 = 0, x2 = 0, y2 = 0, m = 0, b = 0;
+        double a, b, c, d;
         Scanner input = new Scanner(System.in);
         try {
             System.out.println("Enter x1: ");
-            x1 = Double.parseDouble(input.nextLine());
+            a = Double.parseDouble(input.nextLine());
             System.out.println("Enter y1: ");
-            y1 = Double.parseDouble(input.nextLine());
+            b = Double.parseDouble(input.nextLine());
             System.out.println("Enter x2: ");
-            x2 = Double.parseDouble(input.nextLine());
+            c = Double.parseDouble(input.nextLine());
             System.out.println("Enter y2: ");
-            y2 = Double.parseDouble(input.nextLine());
+            d = Double.parseDouble(input.nextLine());
             
-            System.out.println("(");
+            System.out.println("(" + a + " + " + b + ")(" + c + " + " + d + ")");
+            System.out.println("(" + a*c + " + " + a*d + " + " + b*c + " + " + b * d + ") =");
+            System.out.println(a*c + a*d + b*c + b*d);
         }catch(NumberFormatException e) {
             System.out.println("Enter only integers.");
         }

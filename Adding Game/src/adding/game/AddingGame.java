@@ -3,23 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package array;
+package adding.game;
 
-import java.util.Arrays;
 /**
  *
  * @author pattt
  */
-public class Array {
+public class AddingGame {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        init();
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new GUI().setVisible(true);
+            }
+        });
     }
     
-    private static void init() {
-        
-    }
 }

@@ -3,27 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nodes;
-
-import javax.swing.JFrame;
+package childrens.math.game;
 
 /**
  *
  * @author pattt
  */
-public class Nodes extends JFrame {
+public class ChildrensMathGame {
 
     /**
      * @param args the command line arguments
      */
     
-    Nodes() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500, 500);
-    }
-    
+    // Only method call is to the GUI constructor which enables the frame
     public static void main(String[] args) {
-        // TODO code application logic here
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new GUI().setVisible(true);
+            }
+        });
     }
     
 }
