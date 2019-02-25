@@ -35,10 +35,11 @@ public class FileSearch {
         for (File files : file.listFiles()) {
             if (files.isDirectory()) {
                 folderCount++;
+                folderNames.add(files.getAbsolutePath());
                 countFiles(files.getAbsoluteFile());
-            }
-            if (files.isFile()) {
+            } else if (files.isFile()) {
                 fileCount++;
+                fileNames.add(files.getAbsolutePath());
             }
         }
     }
@@ -77,19 +78,10 @@ public class FileSearch {
     public void copyDirectory(String copyLocation, File directory) {
         File newDir = new File(copyLocation);
         if (newDir.mkdir()) {
-            if (directory.isDirectory()) {
-                for (File fold : directory.listFiles()) {
-                    long size = (fold.length() / 1000000);
-                    if (fold.isDirectory()) {
-                        folderNames.add(fold.getAbsolutePath());
-                    } else if (fold.isFile()) {
-                        fileNames.add(fold.getAbsolutePath());
-
-                    }
-                    copyDirectory(copyLocation, fold.getAbsoluteFile());
-                }
-            }
-        }else{
+            
+            
+            
+        } else {
             System.out.println("Directory not made.");
         }
     }
@@ -129,8 +121,6 @@ public class FileSearch {
             System.out.println("Error: " + e.getLocalizedMessage());
         }
     }
-    
-    
 
     public static String getCount() {
         return ("Folders: " + folderCount
@@ -162,31 +152,31 @@ public class FileSearch {
 
 }
 /*
-    if (file.isDirectory()) {
-            for (File f : file.listFiles()) {
-                long size = (f.length()/1000000);
-                if (f.isDirectory()) {
-                    if(size >= 1) {
-                        System.out.println("Folder: " + f.getAbsolutePath() + "\nSize: " + size + " mb");
-                    }else{
-                        System.out.println("Folder: " + f.getAbsolutePath() + "\nSize: " + f.length() + " bytes");
-                    }
-                    printDir(f.getAbsoluteFile());
-                }else if(f.isFile()) {
-                    if(size >= 1) {
-                        System.out.println("File: " + f.getName() + "\nSize: " + size + " mb");
-                    }else{
-                        System.out.println("File: " + f.getName() + "\nSize: " + f.length() + " bytes");
-                    }
-                }else if(f.isHidden()) {
-                    if(size >= 1) {
-                        System.out.println("Hidden: " + f.getName() + "\nSize: " + size + " mb");
-                    }else{
-                        System.out.println("Hidden: " + f.getName() + "\nSize: " + f.length() + " bytes");
-                    }
-                }else {
-                    System.out.println("Something is here but we cannot see it.");
-                }
-            }
-        }
+ if (file.isDirectory()) {
+ for (File f : file.listFiles()) {
+ long size = (f.length()/1000000);
+ if (f.isDirectory()) {
+ if(size >= 1) {
+ System.out.println("Folder: " + f.getAbsolutePath() + "\nSize: " + size + " mb");
+ }else{
+ System.out.println("Folder: " + f.getAbsolutePath() + "\nSize: " + f.length() + " bytes");
+ }
+ printDir(f.getAbsoluteFile());
+ }else if(f.isFile()) {
+ if(size >= 1) {
+ System.out.println("File: " + f.getName() + "\nSize: " + size + " mb");
+ }else{
+ System.out.println("File: " + f.getName() + "\nSize: " + f.length() + " bytes");
+ }
+ }else if(f.isHidden()) {
+ if(size >= 1) {
+ System.out.println("Hidden: " + f.getName() + "\nSize: " + size + " mb");
+ }else{
+ System.out.println("Hidden: " + f.getName() + "\nSize: " + f.length() + " bytes");
+ }
+ }else {
+ System.out.println("Something is here but we cannot see it.");
+ }
+ }
+ }
  */

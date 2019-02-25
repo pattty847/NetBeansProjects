@@ -118,7 +118,7 @@ public class GUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(openButton)
@@ -127,7 +127,7 @@ public class GUI extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(viewButton)
                             .addComponent(deleteButton)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6))
@@ -171,13 +171,13 @@ public class GUI extends javax.swing.JFrame {
     private void viewButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewButtonMouseClicked
         if (!inputText.getText().isEmpty()) {
             if (search.doesDirExist(inputText.getText())) {
-                jTextPane1.setText(search.getCount());
                 fileDisplay.setText(Arrays.toString(search.getMainDir().list()).trim());
-                //search.loadDir(inputText.getText(), "view");
+                search.loadDir(inputText.getText(), "view");
+                jTextPane1.setText(search.getCount());
                 search.copyDirectory(inputText.getText(), search.getMainDir());
-                for(String s : FileSearch.getFolderNames()) {
+                FileSearch.getFolderNames().stream().forEach((s) -> {
                     System.out.println(s);
-                }
+                });
             } else {
                 JOptionPane.showMessageDialog(this, "Directory or File not Found.", "Error", JOptionPane.ERROR_MESSAGE);
                 inputText.setText(null);
