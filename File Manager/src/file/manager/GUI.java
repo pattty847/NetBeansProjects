@@ -5,6 +5,7 @@
  */
 package file.manager;
 
+import java.util.Arrays;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -42,8 +43,8 @@ public class GUI extends javax.swing.JFrame {
         openButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextPane1 = new javax.swing.JTextPane();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        fileDisplay = new javax.swing.JList<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        fileDisplay = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -76,7 +77,8 @@ public class GUI extends javax.swing.JFrame {
         jTextPane1.setEditable(false);
         jScrollPane1.setViewportView(jTextPane1);
 
-        jScrollPane3.setViewportView(fileDisplay);
+        fileDisplay.setEditable(false);
+        jScrollPane2.setViewportView(fileDisplay);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -85,7 +87,7 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -95,7 +97,7 @@ public class GUI extends javax.swing.JFrame {
                             .addComponent(copy, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(openButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -114,8 +116,8 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(inputText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -149,6 +151,8 @@ public class GUI extends javax.swing.JFrame {
         if (!inputText.getText().isEmpty()) {
             if(search.doesDirExist(inputText.getText())) {
                 search.loadDir(inputText.getText(), "copy");
+                fileDisplay.setText(Arrays.toString(search.getMainDir().list()).trim());
+                jTextPane1.setText(search.getCount());
             } else {
                 JOptionPane.showMessageDialog(this, "Directory or File not Found.", "Error", JOptionPane.ERROR_MESSAGE);
                 inputText.setText(null);
@@ -167,8 +171,13 @@ public class GUI extends javax.swing.JFrame {
     private void viewButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewButtonMouseClicked
         if (!inputText.getText().isEmpty()) {
             if (search.doesDirExist(inputText.getText())) {
-                search.loadDir(inputText.getText(), "view");
                 jTextPane1.setText(search.getCount());
+                fileDisplay.setText(Arrays.toString(search.getMainDir().list()).trim());
+                //search.loadDir(inputText.getText(), "view");
+                search.copyDirectory(inputText.getText(), search.getMainDir());
+                for(String s : FileSearch.getFolderNames()) {
+                    System.out.println(s);
+                }
             } else {
                 JOptionPane.showMessageDialog(this, "Directory or File not Found.", "Error", JOptionPane.ERROR_MESSAGE);
                 inputText.setText(null);
@@ -181,12 +190,12 @@ public class GUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton copy;
     private javax.swing.JButton deleteButton;
-    private javax.swing.JList<String> fileDisplay;
+    private javax.swing.JTextPane fileDisplay;
     private javax.swing.JTextField inputText;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextPane jTextPane1;
     private javax.swing.JButton openButton;
     private javax.swing.JProgressBar progressBar;
