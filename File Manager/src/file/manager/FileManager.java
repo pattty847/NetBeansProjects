@@ -14,6 +14,8 @@ public class FileManager {
     /**
      * @param args the command line arguments
      */
+    
+    // Run the GUI frame
     public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

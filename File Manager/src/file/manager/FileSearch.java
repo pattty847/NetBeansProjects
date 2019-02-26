@@ -6,13 +6,15 @@
 package file.manager;
 
 import java.awt.Frame;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,133 +23,163 @@ import javax.swing.JOptionPane;
  */
 public class FileSearch {
 
+    private static ArrayList<String> folderNames = new ArrayList<>(); // Array used to hold each folder name (will further implement this)
+    private static ArrayList<String> fileNames = new ArrayList<>(); // Array used to hold each file name (will further implement this)
     private static int folderCount = 0, fileCount = 0; // Ints to hold number of folders and files in a directory, and all sub-directories
     private static File mainDir; // File contining directory the user is searching
-    private static File[] subDirs;
     private static Frame frame;
 
+    // Method returns true when the file attempted to look at is real
     public boolean doesDirExist(String text) {
         mainDir = new File(text);
         return mainDir.exists();
     }
 
-    public static void countFiles(File file) throws IOException, NullPointerException {
+    // Method stores the amount of folders and files in a directory, and holds all their paths
+    public static void grabFiles(File file) throws IOException, NullPointerException {
+        // List all files sent to the method
         for (File files : file.listFiles()) {
+            // If the directory is a folder, add the path and + 1
             if (files.isDirectory()) {
                 folderCount++;
                 folderNames.add(files.getAbsolutePath());
-                countFiles(files.getAbsoluteFile());
+                // Reopen this folder and repeat
+                grabFiles(files.getAbsoluteFile());
             } else if (files.isFile()) {
+                // If the directory is a file, add the path and + 1
                 fileCount++;
                 fileNames.add(files.getAbsolutePath());
             }
         }
     }
 
-    public static void copyFiles(String copyLoc, File files) throws FileNotFoundException {
-        File copyFile = new File(copyLoc);
-// Create the directory for the new copy location
-        if (copyFile.mkdir()) {
-            try {
-                int transferBytes;
-                FileOutputStream outputStream = new FileOutputStream(copyFile);
-                for (File f : files.listFiles()) {
-// list all files and if there is a directory in the first place open it with recursion
-                    System.out.println("listing files:" + Arrays.toString(files.listFiles()));
-                    if (f.isDirectory()) {
-                        System.out.println("directory recursion open: " + f.getAbsolutePath());
-                        copyFiles(f.getAbsolutePath(), f);
-                    } else if (f.isFile()) {
-                        FileInputStream inputStream = new FileInputStream(f);
-                        while ((transferBytes = inputStream.read()) != -1) {
-                            System.out.println(transferBytes);
-                            outputStream.write(transferBytes);
-                        }
-                    }
-                }
+    // Method will completely recursively copy an entire directory and all of its subcomponents
+    public void copyDirectory(File copyFiles, File newLoc) throws Exception {
 
-            } catch (IOException ex) {
-                ex.getLocalizedMessage();
+        if (copyFiles.isDirectory()) {
+            if (!newLoc.exists()) {
+                // Create a new directory for the new copy location
+                newLoc.mkdirs();
+            }
+            // List all the files within the files to be copies
+            String newFolders[] = copyFiles.list();
+
+            // For each of the folders we create a new file with path 
+            for (String f : newFolders) {
+                File sFolder = new File(copyFiles, f);
+                File dFolder = new File(newLoc, f);
+                // Repeat this process with a call to the same method to complete all folders
+                copyDirectory(sFolder, dFolder);
+            }
+        } else {
+            // If the directory is a file we create null input/output streams and bufferedinputs
+            FileInputStream sourceStream = null;
+            FileOutputStream destStream = null;
+
+            BufferedInputStream bufferedSource = null;
+            BufferedOutputStream bufferedDestination = null;
+
+            try {
+                // attemt to create an input stream with the file in hand
+                sourceStream = new FileInputStream(copyFiles);
+                // attempt to create an output stream to the copy location
+                destStream = new FileOutputStream(newLoc);
+
+                // Create a buffer for source and destination that is 8k
+                bufferedSource = new BufferedInputStream(sourceStream, 8182);
+                bufferedDestination = new BufferedOutputStream(destStream, 8182);
+
+                // Int to hold data
+                int data;
+
+                // Loop through all data in file until source reads -1
+                while ((data = bufferedSource.read()) != -1) {
+                    bufferedDestination.write(data);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(frame, "There was an IO error.", "Error", JOptionPane.ERROR_MESSAGE);
+            } finally {
+
+                // Finally close the sources and destination
+                if (bufferedSource != null) {
+                    bufferedSource.close();
+                }
+                if (bufferedDestination != null) {
+                    bufferedDestination.close();
+                }
             }
         }
+
     }
 
-    private static ArrayList<String> folderNames = new ArrayList<>();
-    private static ArrayList<String> fileNames = new ArrayList<>();
-
-    public void copyDirectory(String copyLocation, File directory) {
-        File newDir = new File(copyLocation);
-        if (newDir.mkdir()) {
-            
-            
-            
-        } else {
-            System.out.println("Directory not made.");
-        }
-    }
-
+    // Method which is called from the GUI that executes a particular setting: view, copy, delete, open
     public void loadDir(String text, String setting) {
         try {
             mainDir = new File(text);
             switch (setting) {
+                // "view" - counts all folders and files in a directory to display on GUI
                 case "view":
                     folderCount = 0;
                     fileCount = 0;
-                    countFiles(mainDir.getAbsoluteFile());
+                    grabFiles(mainDir.getAbsoluteFile());
                     break;
+
+                // "copy" - attempts to copy a directory to another location
                 case "copy":
+
+                    // Grab the users attempted new copy directory
                     String copyLoc = JOptionPane.showInputDialog(frame, "Enter a copy location.", "Copy", JOptionPane.PLAIN_MESSAGE);
-                    if (!copyLoc.isEmpty() && !doesDirExist(copyLoc)) {
-                        int option = JOptionPane.showConfirmDialog(frame, "Confirm Copy");
-                        switch (option) {
-                            case JOptionPane.OK_OPTION:
-                                copyFiles(copyLoc, mainDir);
-                                break;
-                            case JOptionPane.NO_OPTION:
-                                break;
-                            case JOptionPane.CANCEL_OPTION:
-                                break;
-                            default:
-                                break;
+                    // If the original directory exists and the text box has a directory in it
+                    if (!copyLoc.isEmpty()) {
+
+                        // Create the file with the new location
+                        File newCopy = new File(copyLoc);
+                        // Check if it doesn't already exist, so we don't overwrite something
+                        if (!newCopy.exists()) {
+                            int option = JOptionPane.showConfirmDialog(frame, "Confirm Copy");
+                            switch (option) {
+                                case JOptionPane.OK_OPTION:
+                                    // Call to copyDirectory()
+                                    copyDirectory(mainDir, newCopy);
+                                    break;
+                                case JOptionPane.NO_OPTION:
+                                    break;
+                                case JOptionPane.CANCEL_OPTION:
+                                    break;
+                                default:
+                                    break;
+                            }
+                        } else {
+                            // Error message if the user attempts to copy to an existing directory
+                            JOptionPane.showMessageDialog(frame, "Location chosen is already a directory, overwriting will cause errors.", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     } else {
-                        JOptionPane.showMessageDialog(frame, "Location chosen is already a directory, overwriting will cause errors.", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(frame, "Enter a new copy directory", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                     break;
             }
+
+            // Catch all possible exceptions
         } catch (IOException ex) {
-            System.out.println("Error: " + ex.getLocalizedMessage());
+            System.out.println("IO: " + ex.getLocalizedMessage());
         } catch (NullPointerException e) {
-            System.out.println("Error: " + e.getLocalizedMessage());
+            System.out.println("Null: " + e.getLocalizedMessage());
+        } catch (Exception ex) {
+            Logger.getLogger(FileSearch.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    // This method returns the directory count to the GUI
     public static String getCount() {
         return ("Folders: " + folderCount
                 + " - " + mainDir.length()
                 + " bytes"
                 + "\nFiles: " + fileCount);
     }
-
-    public String getDir() {
-        try {
-            return mainDir.getName();
-        } catch (NullPointerException e) {
-            e.getLocalizedMessage();
-        }
-        return null;
-    }
-
+    
     public File getMainDir() {
         return mainDir;
-    }
-
-    public static ArrayList<String> getFolderNames() {
-        return folderNames;
-    }
-
-    public static ArrayList<String> getFileNames() {
-        return fileNames;
     }
 
 }

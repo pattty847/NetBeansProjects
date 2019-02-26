@@ -6,8 +6,11 @@
 package file.manager;
 
 import java.util.Arrays;
-import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import java.awt.Desktop;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -59,6 +62,11 @@ public class GUI extends javax.swing.JFrame {
         });
 
         deleteButton.setText("Delete");
+        deleteButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                deleteButtonMouseClicked(evt);
+            }
+        });
 
         viewButton.setText("View");
         viewButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -136,9 +144,39 @@ public class GUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
+    /**
+     * Method is called when a user attempts to open the directory typed into (inputText)
+     * If (inputText) is empty there will be no execution; along with the directory not existing.
+     * If it exists, we sent the directory to the (loadDir()) method with "copy" param. The (loadDir())
+     * method will take care of the copy location and execution of this.
+     * @param evt 
+     */
     private void openButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_openButtonMouseClicked
+        // Checks if Desktop import is supported on current OS
+        if(!Desktop.isDesktopSupported()) {
+            System.out.println("Open file not supported");
+            return;
+        }
         
+        // Grab the desktop's instance to open the file
+        Desktop desktop = Desktop.getDesktop();
+        if (!inputText.getText().isEmpty()) {
+            if(search.doesDirExist(inputText.getText())) {
+                try {
+                    
+                    // Open the file with this function
+                    desktop.open(search.getMainDir());
+                } catch (IOException ex) {
+                    Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Directory or File not Found.", "Error", JOptionPane.ERROR_MESSAGE);
+                inputText.setText(null);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Enter a directory to copy.", "Error", JOptionPane.ERROR_MESSAGE);
+            inputText.setText(null);
+        }
     }//GEN-LAST:event_openButtonMouseClicked
     
     /**
@@ -150,9 +188,10 @@ public class GUI extends javax.swing.JFrame {
     private void copyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_copyMouseClicked
         if (!inputText.getText().isEmpty()) {
             if(search.doesDirExist(inputText.getText())) {
-                search.loadDir(inputText.getText(), "copy");
                 fileDisplay.setText(Arrays.toString(search.getMainDir().list()).trim());
                 jTextPane1.setText(search.getCount());
+                search.loadDir(inputText.getText(), "copy");
+
             } else {
                 JOptionPane.showMessageDialog(this, "Directory or File not Found.", "Error", JOptionPane.ERROR_MESSAGE);
                 inputText.setText(null);
@@ -164,7 +203,7 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_copyMouseClicked
 
     /**
-     * Method is called when the user attempts to open a file directory typed into (inputText).
+     * Method is called when the user attempts to look at a file's contents typed into (inputText).
      * If (inputText) is empty there will be no execution; along with the directory not existing.
      * If it exists, we sent the directory to the (loadDir()) method with "open" param.
      */
@@ -174,10 +213,6 @@ public class GUI extends javax.swing.JFrame {
                 fileDisplay.setText(Arrays.toString(search.getMainDir().list()).trim());
                 search.loadDir(inputText.getText(), "view");
                 jTextPane1.setText(search.getCount());
-                search.copyDirectory(inputText.getText(), search.getMainDir());
-                FileSearch.getFolderNames().stream().forEach((s) -> {
-                    System.out.println(s);
-                });
             } else {
                 JOptionPane.showMessageDialog(this, "Directory or File not Found.", "Error", JOptionPane.ERROR_MESSAGE);
                 inputText.setText(null);
@@ -186,6 +221,31 @@ public class GUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Enter a directory to open.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_viewButtonMouseClicked
+
+    /**
+     * Method used to delete a directory entered by the user
+     * @param evt 
+     */
+    private void deleteButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteButtonMouseClicked
+        if (!inputText.getText().isEmpty()) {
+            if(search.doesDirExist(inputText.getText())) {
+                int option = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete: " + inputText.getText());
+                if(option == JOptionPane.YES_OPTION) {
+                    if(search.getMainDir().delete()) {
+                        JOptionPane.showMessageDialog(this, "File deleted.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "There was an error deleting the file.", "Error", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Directory or File not Found.", "Error", JOptionPane.ERROR_MESSAGE);
+                inputText.setText(null);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Enter a directory to copy.", "Error", JOptionPane.ERROR_MESSAGE);
+            inputText.setText(null);
+        }
+    }//GEN-LAST:event_deleteButtonMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton copy;
