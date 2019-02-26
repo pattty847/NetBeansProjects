@@ -52,10 +52,18 @@ public class FileSearch {
             }
         }
     }
+    
+    public void displayFilesToGui() {
+        String[] displayFiles = mainDir.list();
+        
+        for(String s : displayFiles) {
+            
+        }
+    }
 
+    private int time = 0;
     // Method will completely recursively copy an entire directory and all of its subcomponents
     public void copyDirectory(File copyFiles, File newLoc) throws Exception {
-
         if (copyFiles.isDirectory()) {
             if (!newLoc.exists()) {
                 // Create a new directory for the new copy location
@@ -68,6 +76,12 @@ public class FileSearch {
             for (String f : newFolders) {
                 File sFolder = new File(copyFiles, f);
                 File dFolder = new File(newLoc, f);
+                                
+                if(time != getFileCount()) {
+                    time += 1;
+                }
+                
+                
                 // Repeat this process with a call to the same method to complete all folders
                 copyDirectory(sFolder, dFolder);
             }
@@ -141,6 +155,7 @@ public class FileSearch {
                             switch (option) {
                                 case JOptionPane.OK_OPTION:
                                     // Call to copyDirectory()
+                                    grabFiles(mainDir.getAbsoluteFile());
                                     copyDirectory(mainDir, newCopy);
                                     break;
                                 case JOptionPane.NO_OPTION:
@@ -170,8 +185,16 @@ public class FileSearch {
         }
     }
 
+    public int getFileCount() {
+        return fileCount + folderCount;
+    }
+    
+    public int getTime() {
+        return time;
+    }
+
     // This method returns the directory count to the GUI
-    public static String getCount() {
+    public String getCount() {
         return ("Folders: " + folderCount
                 + " - " + mainDir.length()
                 + " bytes"

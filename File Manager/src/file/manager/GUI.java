@@ -11,6 +11,7 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JProgressBar;
 
 /**
  *
@@ -22,7 +23,7 @@ public class GUI extends javax.swing.JFrame {
      * Creates new form GUI
      */
     private FileSearch search = new FileSearch();
-    
+
     public GUI() {
         initComponents();
     }
@@ -50,6 +51,7 @@ public class GUI extends javax.swing.JFrame {
         fileDisplay = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("File Manager");
         setResizable(false);
 
         jLabel1.setText("Directory");
@@ -58,6 +60,11 @@ public class GUI extends javax.swing.JFrame {
         copy.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 copyMouseClicked(evt);
+            }
+        });
+        copy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                copyActionPerformed(evt);
             }
         });
 
@@ -145,25 +152,27 @@ public class GUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Method is called when a user attempts to open the directory typed into (inputText)
-     * If (inputText) is empty there will be no execution; along with the directory not existing.
-     * If it exists, we sent the directory to the (loadDir()) method with "copy" param. The (loadDir())
-     * method will take care of the copy location and execution of this.
-     * @param evt 
+     * Method is called when a user attempts to open the directory typed into
+     * (inputText) If (inputText) is empty there will be no execution; along
+     * with the directory not existing. If it exists, we sent the directory to
+     * the (loadDir()) method with "copy" param. The (loadDir()) method will
+     * take care of the copy location and execution of this.
+     *
+     * @param evt
      */
     private void openButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_openButtonMouseClicked
         // Checks if Desktop import is supported on current OS
-        if(!Desktop.isDesktopSupported()) {
+        if (!Desktop.isDesktopSupported()) {
             System.out.println("Open file not supported");
             return;
         }
-        
+
         // Grab the desktop's instance to open the file
         Desktop desktop = Desktop.getDesktop();
         if (!inputText.getText().isEmpty()) {
-            if(search.doesDirExist(inputText.getText())) {
+            if (search.doesDirExist(inputText.getText())) {
                 try {
-                    
+
                     // Open the file with this function
                     desktop.open(search.getMainDir());
                 } catch (IOException ex) {
@@ -178,20 +187,21 @@ public class GUI extends javax.swing.JFrame {
             inputText.setText(null);
         }
     }//GEN-LAST:event_openButtonMouseClicked
-    
+
     /**
-     * Method is called when the user attempts to copy a file directory typed into (inputText).
-     * If (inputText) is empty there will be no execution; along with the directory not existing.
-     * If it exists, we sent the directory to the (loadDir()) method with "copy" param. The (loadDir())
+     * Method is called when the user attempts to copy a file directory typed
+     * into (inputText). If (inputText) is empty there will be no execution;
+     * along with the directory not existing. If it exists, we sent the
+     * directory to the (loadDir()) method with "copy" param. The (loadDir())
      * method will take care of the copy location and execution of this.
      */
     private void copyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_copyMouseClicked
         if (!inputText.getText().isEmpty()) {
-            if(search.doesDirExist(inputText.getText())) {
+            if (search.doesDirExist(inputText.getText())) {
                 fileDisplay.setText(Arrays.toString(search.getMainDir().list()).trim());
                 jTextPane1.setText(search.getCount());
                 search.loadDir(inputText.getText(), "copy");
-
+                
             } else {
                 JOptionPane.showMessageDialog(this, "Directory or File not Found.", "Error", JOptionPane.ERROR_MESSAGE);
                 inputText.setText(null);
@@ -203,9 +213,10 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_copyMouseClicked
 
     /**
-     * Method is called when the user attempts to look at a file's contents typed into (inputText).
-     * If (inputText) is empty there will be no execution; along with the directory not existing.
-     * If it exists, we sent the directory to the (loadDir()) method with "open" param.
+     * Method is called when the user attempts to look at a file's contents
+     * typed into (inputText). If (inputText) is empty there will be no
+     * execution; along with the directory not existing. If it exists, we sent
+     * the directory to the (loadDir()) method with "open" param.
      */
     private void viewButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewButtonMouseClicked
         if (!inputText.getText().isEmpty()) {
@@ -224,14 +235,15 @@ public class GUI extends javax.swing.JFrame {
 
     /**
      * Method used to delete a directory entered by the user
-     * @param evt 
+     *
+     * @param evt
      */
     private void deleteButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteButtonMouseClicked
         if (!inputText.getText().isEmpty()) {
-            if(search.doesDirExist(inputText.getText())) {
+            if (search.doesDirExist(inputText.getText())) {
                 int option = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete: " + inputText.getText());
-                if(option == JOptionPane.YES_OPTION) {
-                    if(search.getMainDir().delete()) {
+                if (option == JOptionPane.YES_OPTION) {
+                    if (search.getMainDir().delete()) {
                         JOptionPane.showMessageDialog(this, "File deleted.", "Success", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(this, "There was an error deleting the file.", "Error", JOptionPane.INFORMATION_MESSAGE);
@@ -246,6 +258,10 @@ public class GUI extends javax.swing.JFrame {
             inputText.setText(null);
         }
     }//GEN-LAST:event_deleteButtonMouseClicked
+
+    private void copyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_copyActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton copy;

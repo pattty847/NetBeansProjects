@@ -351,6 +351,7 @@ public class GUI extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         game.voice.speak("Score: " + game.getScore() + " out of " + game.getTotal());
+        //game.voice.speak("Hello my name Liz");
     }//GEN-LAST:event_jButton1MouseClicked
 
     // Method to track how many numbers are entered: 5 is max, 
