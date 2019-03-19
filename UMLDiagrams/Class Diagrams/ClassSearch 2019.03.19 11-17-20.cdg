@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="ClassSearch">
+  <ClassDiagramComponents>
+    <Class name="Section" package="section.search" visibility="public" xPosition="20.0" yPosition="20.0">
+      <Fields>
+        <Field name="subject" type="String" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="package"/>
+      </Constructors>
+      <Methods>
+        <Method name="getSubject" returnType="String" visibility="public"/>
+        <Method name="setSubject" returnType="void" visibility="public">
+          <Argument type="String" name="subject"/>
+        </Method>
+        <Method name="getDays" returnType="String" visibility="public"/>
+        <Method name="setDays" returnType="void" visibility="public">
+          <Argument type="String" name="days"/>
+        </Method>
+        <Method name="getTime" returnType="String" visibility="public"/>
+        <Method name="setTime" returnType="void" visibility="public">
+          <Argument type="String" name="time"/>
+        </Method>
+        <Method name="getCourse" returnType="String" visibility="public"/>
+        <Method name="setCourse" returnType="void" visibility="public">
+          <Argument type="String" name="course"/>
+        </Method>
+        <Method name="getSection" returnType="String" visibility="public"/>
+        <Method name="setSection" returnType="void" visibility="public">
+          <Argument type="String" name="section"/>
+        </Method>
+        <Method name="getCRN" returnType="String" visibility="public"/>
+        <Method name="setCRN" returnType="void" visibility="public">
+          <Argument type="String" name="CRN"/>
+        </Method>
+        <Method name="getCredits" returnType="String" visibility="public"/>
+        <Method name="setCredits" returnType="void" visibility="public">
+          <Argument type="String" name="credits"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="SectionList" package="section.search" visibility="public" xPosition="240.0" yPosition="20.0">
+      <Fields>
+        <Field name="file" type="String" visibility="private" isStatic="true"/>
+        <Field name="sections" type="Section[]" visibility="private" isStatic="true"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="printSections" returnType="void" visibility="public" isStatic="true"/>
+        <Method name="loadSection" returnType="void" visibility="public" isStatic="true"/>
+        <Method name="searchSections" returnType="void" visibility="public" isStatic="true"/>
+      </Methods>
+    </Class>
+    <Class name="SectionSearch" package="section.search" visibility="public" xPosition="449.0" yPosition="20.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations/>
+</ClassDiagram>
