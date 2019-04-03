@@ -1,0 +1,20 @@
+Java http://docs.oracle.com/javase/tutorial/
+Python http://www.tutorialspoint.com/python/
+Perl http://www.tutorialspoint.com/perl/
+C++ http://www.cplusplus.com/doc/tutorial/
+Objective C http://howtomakeiphoneapps.com/objective-c-tutorial/
+C++ http://www.learncpp.com/
+Objectice C http://objectivectutorial.org/
+Java http://www.learnjavaonline.org/
+Objective C http://www.otierney.net/objective-c.html
+C# http://msdn.microsoft.com/en-us/library/aa288436%28v=vs.71%29.aspx
+Python http://docs.python.org/2/tutorial/
+Python http://www.learnpython.org/
+COBOL http://cobol.404i.com/
+Java http://www.tutorialspoint.com/java/
+C++ http://www.tutorialspoint.com/cplusplus/
+Ruby https://www.ruby-lang.org/en/documentation/quickstart/
+PHP http://php.net/manual/en/tutorial.php
+JavaScript http://www.w3schools.com/js/default.asp
+Ruby http://ruby-doc.org/docs/Tutorial/
+JavaScript http://www.webteacher.com/javascript/
