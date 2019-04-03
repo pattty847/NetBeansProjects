@@ -14,15 +14,24 @@ public class Sort {
 
     // Variables
     private static int[] intSort; // int array to sort
+    private static long[] insertionTimes, bubbleTimes, selectionTimes;
     private static int exTimes; // number of times to sort the array
 
     private static PrintWriter p; // PriterWriter to write to file
 
+    
     // Length of the random integer array, number of times to execute algorithms
     Sort(int intSortLen, int exTimes) {
         // Initialize an empty array with this length
         intSort = new int[intSortLen];
-
+        
+        insertionTimes = new long[intSort.length];
+        
+        bubbleTimes = new long[intSort.length];
+        
+        selectionTimes = new long[intSort.length];
+        
+        
         // Holds the number of times the sort will be executed
         this.exTimes = exTimes;
 
@@ -34,6 +43,7 @@ public class Sort {
         }
     }
 
+    
     // Method will create random elements for the array created from the Sort object
     public static void createRandomIntArray() {
         Random r = new Random();
@@ -46,6 +56,7 @@ public class Sort {
         System.out.println("Array created, sorting...");
     }
 
+    
     // Method sorts the array intSort with selection algorithm
     public static void selectionSort() {
         // Execute this method as many times as set 
@@ -74,11 +85,21 @@ public class Sort {
             } // end for
 
             long passedTime = System.currentTimeMillis() - startTime;
-
+            
+            for(int times = 0; times < selectionTimes.length; times++) {
+                selectionTimes[times] = passedTime;
+            }
+            
             writeResults(passedTime, "Selection " + k);
+            if(k == exTimes - 1) {
+                writeAverage(selectionTimes);
+            }
         } // end for
+        
+        
     } // end selectionSort()
-
+   
+    
     // Method sorts the array intSort with bubble algorithm
     public static void bubbleSort() {
         // Execute this method as many times as set 
@@ -113,9 +134,13 @@ public class Sort {
             long passedTime = System.currentTimeMillis() - startTime;
 
             writeResults(passedTime, "Bubble " + k);
+            if(k == exTimes - 1) {
+                writeAverage(bubbleTimes);
+            }
         }
     } // end bubbleSort()
 
+    
     // Method sorts the array intSort with insertion algorithm
     public static void insertionSort() {
         // Execute this method as many times as set 
@@ -147,17 +172,31 @@ public class Sort {
 
             // Print results with time
             writeResults(passedTime, "Insertion " + k);
+            if(k == exTimes - 1) {
+                writeAverage(insertionTimes);
+            }
         }
     } // end insertionSort()
 
+    
+    public static void writeAverage(long[] array) {
+        long av = 0;
+        for(long l : array) {
+            av = av + l;
+        }
+        
+        p.println("Average: " + (int) (av / array.length) + "ms");
+        p.flush();
+    }
+    
     // Method will be called after sort is complete and write results to file
     public static void writeResults(long time, String type) {
         // If the time is less than 1 second write the miliseconds
         if (time < 1000) {
-            String s = (type + ":" + time + "ms");
+            String s = (type + " : " + time + "ms");
             p.println(s);
         } else { // Larger than 1 second, write seconds and miliseconds
-            String s = (type + ":" + (time / 1000) + "sec" + "sec\nTime: " + time + "ms");
+            String s = (type + " : " + (time / 1000) + "sec" + "sec\nTime: " + time + "ms");
             p.println(s);
         }
         // Flush stream
