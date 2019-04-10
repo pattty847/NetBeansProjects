@@ -2,7 +2,7 @@
  * Author: Patrick McDermott
  * This project is available to anyone who chooses to use it.
  */
-package stringsort;
+package sort;
 
 /**
  *
@@ -11,7 +11,7 @@ package stringsort;
  * This program will read in a file containing 1000 randomly places words
  * and use two algorithms to sort them. Insertion and selection sort.
  */
-public class StringSort {
+public class Main {
 
     /**
      * @param args the command line arguments

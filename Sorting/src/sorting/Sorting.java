@@ -14,7 +14,7 @@ public class Sorting {
      * Sort(# of elements in array, # of times executed for each sort)
      */
     public static void main(String[] args) {
-        Sort newSort = new Sort(50000, 10);
+        Sort newSort = new Sort(10000, 100);
         
         newSort.insertionSort();
         newSort.bubbleSort();
