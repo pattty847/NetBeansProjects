@@ -2,7 +2,7 @@
  * Author: Patrick McDermott
  * This project is available to anyone who chooses to use it.
  */
-package stringsort;
+package sort;
 
 import java.io.File;
 import java.io.FileNotFoundException;

@@ -44,7 +44,12 @@ hs_err_pid*
 /Sorting/build/
 /StringSort/nbproject/private/
 /StringSort/build/
+<<<<<<< HEAD
 /tutorials/nbproject/private/
 /tutorials/build/
 /mergeSortdemo/nbproject/private/
 /mergeSortdemo/build/
+=======
+/DatabaseQuery/nbproject/private/
+/DatabaseQuery/build/
+>>>>>>> 921c995f101fcf7347342876a2be6bb607613a06

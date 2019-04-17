@@ -24,8 +24,11 @@ public class Sort {
     Sort(int intSortLen, int exTimes) {
         // Initialize an empty array with this length
         intSort = new int[intSortLen];
+<<<<<<< HEAD
         
         // Arrays that hold time ellapsed for each sort
+=======
+>>>>>>> 921c995f101fcf7347342876a2be6bb607613a06
         insertionTimes = new long[intSort.length];
         bubbleTimes = new long[intSort.length];
         selectionTimes = new long[intSort.length];
@@ -33,7 +36,7 @@ public class Sort {
         // Holds the number of times the sort will be executed
         this.exTimes = exTimes;
 
-        // Creates a file to hold the results in
+        // Attempts to create a new file to store the results (times) of each algorithm
         try {
             p = new PrintWriter("results.txt");
         } catch (FileNotFoundException ex) {
@@ -45,11 +48,12 @@ public class Sort {
     // Method will create random elements for the array created from the Sort object
     public static void createRandomIntArray() {
         Random r = new Random();
+        
         for (int i = 0; i < intSort.length; i++) {
-
             // Initialize a new random integer for each index of the array
             intSort[i] = r.nextInt(intSort.length);
         }
+        
         // Notify background processes are working
         System.out.println("Array created, sorting...");
     }
