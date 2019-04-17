@@ -1,63 +1,43 @@
-Insertion 0 : 1secsec
-Time: 1254ms
-Insertion 1 : 1secsec
-Time: 1371ms
-Insertion 2 : 1secsec
-Time: 1359ms
-Insertion 3 : 1secsec
-Time: 1360ms
-Insertion 4 : 1secsec
-Time: 1357ms
-Insertion 5 : 1secsec
-Time: 1373ms
-Insertion 6 : 1secsec
-Time: 1381ms
-Insertion 7 : 1secsec
-Time: 1353ms
-Insertion 8 : 1secsec
-Time: 1369ms
-Insertion 9 : 1secsec
-Time: 1359ms
-Average: 0ms
-Bubble 0 : 4secsec
-Time: 4630ms
-Bubble 1 : 4secsec
-Time: 4602ms
-Bubble 2 : 4secsec
-Time: 4607ms
-Bubble 3 : 4secsec
-Time: 4622ms
-Bubble 4 : 4secsec
-Time: 4598ms
-Bubble 5 : 4secsec
-Time: 4594ms
-Bubble 6 : 4secsec
-Time: 4635ms
-Bubble 7 : 4secsec
-Time: 4679ms
-Bubble 8 : 4secsec
-Time: 4626ms
-Bubble 9 : 4secsec
-Time: 4688ms
-Average: 0ms
-Selection 0 : 1secsec
-Time: 1752ms
-Selection 1 : 1secsec
-Time: 1753ms
-Selection 2 : 1secsec
-Time: 1749ms
-Selection 3 : 1secsec
-Time: 1752ms
-Selection 4 : 1secsec
-Time: 1843ms
-Selection 5 : 1secsec
-Time: 1765ms
-Selection 6 : 1secsec
-Time: 1748ms
-Selection 7 : 1secsec
-Time: 1749ms
-Selection 8 : 1secsec
-Time: 1756ms
-Selection 9 : 1secsec
-Time: 1749ms
-Average: 1749ms
+Insertion 0 : 342ms
+Insertion 1 : 536ms
+Insertion 2 : 390ms
+Insertion 3 : 377ms
+Insertion 4 : 370ms
+Insertion 5 : 365ms
+Insertion 6 : 409ms
+Insertion 7 : 358ms
+Insertion 8 : 381ms
+Insertion 9 : 376ms
+Average: 376ms
+Bubble 0 : 1sec
+Time: 1074ms
+Bubble 1 : 1sec
+Time: 1056ms
+Bubble 2 : 1sec
+Time: 1066ms
+Bubble 3 : 1sec
+Time: 1064ms
+Bubble 4 : 1sec
+Time: 1046ms
+Bubble 5 : 1sec
+Time: 1024ms
+Bubble 6 : 1sec
+Time: 1036ms
+Bubble 7 : 1sec
+Time: 1051ms
+Bubble 8 : 1sec
+Time: 1039ms
+Bubble 9 : 1sec
+Time: 1026ms
+Average: 1026ms
+Selection 0 : 346ms
+Selection 1 : 334ms
+Selection 2 : 340ms
+Selection 3 : 341ms
+Selection 4 : 362ms
+Selection 5 : 356ms
+Selection 6 : 324ms
+Selection 7 : 329ms
+Selection 8 : 334ms
+Selection 9 : 331ms
+Average: 331ms

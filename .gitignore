@@ -44,3 +44,7 @@ hs_err_pid*
 /Sorting/build/
 /StringSort/nbproject/private/
 /StringSort/build/
+/tutorials/nbproject/private/
+/tutorials/build/
+/mergeSortdemo/nbproject/private/
+/mergeSortdemo/build/

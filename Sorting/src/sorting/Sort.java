@@ -25,12 +25,10 @@ public class Sort {
         // Initialize an empty array with this length
         intSort = new int[intSortLen];
         
+        // Arrays that hold time ellapsed for each sort
         insertionTimes = new long[intSort.length];
-        
         bubbleTimes = new long[intSort.length];
-        
         selectionTimes = new long[intSort.length];
-        
         
         // Holds the number of times the sort will be executed
         this.exTimes = exTimes;
@@ -95,8 +93,6 @@ public class Sort {
                 writeAverage(selectionTimes);
             }
         } // end for
-        
-        
     } // end selectionSort()
    
     
@@ -132,6 +128,10 @@ public class Sort {
             } // end outer for
 
             long passedTime = System.currentTimeMillis() - startTime;
+            
+            for(int times = 0; times < bubbleTimes.length; times++) {
+                bubbleTimes[times] = passedTime;
+            }
 
             writeResults(passedTime, "Bubble " + k);
             if(k == exTimes - 1) {
@@ -169,6 +169,10 @@ public class Sort {
 
             // Find time results
             long passedTime = System.currentTimeMillis() - startTime;
+            
+            for(int times = 0; times < insertionTimes.length; times++) {
+                insertionTimes[times] = passedTime;
+            }
 
             // Print results with time
             writeResults(passedTime, "Insertion " + k);
@@ -196,7 +200,7 @@ public class Sort {
             String s = (type + " : " + time + "ms");
             p.println(s);
         } else { // Larger than 1 second, write seconds and miliseconds
-            String s = (type + " : " + (time / 1000) + "sec" + "sec\nTime: " + time + "ms");
+            String s = (type + " : " + (time / 1000) + "sec" + "\nTime: " + time + "ms");
             p.println(s);
         }
         // Flush stream
