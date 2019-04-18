@@ -1,30 +1,3 @@
-/* RemoteMySQLDemo.Java     last edited 3/31/2014 by C.Herbert
- * This code connects to a remote MYSQL database on the website CWHerbert.com
- * It connects via a fixed IP address (IPv4) to the database CWHDemo and
- * the table "pet", which is the same as the table used in the MySQL Documentation,
- * Chapter 3 tutorial.  Read only access to the database and table is granted for 
- * the puposes of learning to write java code to connect to and query a database
- * using SQL from within Java.
- *
- * host IP address: 68.178.217.12
- * database:        CWHDemo
- * username:        CWHDemo
- * password:        Cwhdemo%123  (Note: The password is case sensitive.)
- 
- Table metadata can be retrieved with the query "DESCRIBE pet;"
- name    varchar(20) 
- species varchar(20) 
- sex     char(1) 
- birth   date 
- death   date 
- */
-
-/* The class for the JDBC communications driver for MySQL must be available.
- * It can be included in a locally asccessible library, 
- * by using the import statement    import com.mysql.jdbc.Driver;
- * or by using the Class.forName(com.mysql.jdbc.Driver) within your code 
- */
-
 package remotemysqldemo;
 import java.sql.*;
 

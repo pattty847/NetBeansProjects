@@ -4,17 +4,19 @@
  */
 package databasequery;
 
+import com.opencsv.CSVWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DatabaseQuery {
 
-    
-    
     public static void main(String[] args) throws Exception {
         System.out.println("Connecting to the databasess...\n");
 
@@ -27,36 +29,76 @@ public class DatabaseQuery {
         Statement st = conn.createStatement();
 
         // call a method that performs a query using Statement st
-        selectFromDataBase(st);
+        selectFromDatabase(st);
 
         // Close the connection
         conn.close();
     } // end main()
+
     
-    
-    public static void selectFromDataBase(Statement s) throws SQLException, ClassNotFoundException {
+    // Method querys the database and selects the items necessary to write to CSV file
+    public static void selectFromDatabase(Statement s) throws SQLException, ClassNotFoundException {
+        // This string will hold the query
         String queryString;
+        // Holds the returned data from the database
         ResultSet rs;
-        
+
         // Create an SQL query as as String for this statement
         // this query returns all rows and all columns from the database  
-        queryString = "SELECT crn, subject, course, section, days, time FROM fall2014;";
+        queryString = "SELECT crn, subject, course, section, days, time FROM fall2014 ORDER BY crn ASC;";
 
         // Send a statement executing the query and saving the result set 
         rs = s.executeQuery(queryString);
 
+        // Call to method and ResultSet is passed
         writeToCSV(rs);
-    }
-    
-    public static void writeToCSV(ResultSet rs) throws SQLException, ClassNotFoundException {
-        
-        System.out.printf("%-10s%-10s%n", "CRN", "Subject", "Course", "Section", "Days", "Times");
-        System.out.println("*********************");
 
-        // Iterate the result set and print name, owner, and species attributes
+        answerQuestion(s);
+    }
+
+    // Method answers the question 'Which courses meet three times a week?'
+    public static void answerQuestion(Statement s) throws SQLException, ClassNotFoundException {
+        // This string will hold the query for the question below
+        String queryString = "SELECT crn, subject, course, section, days, time FROM fall2014 ORDER BY crn ASC";
+
+        // ResultSet object will contain for query results
+        ResultSet rs;
+
+        // Question I will be querying the database
+        System.out.println("What courses all meet three times a week?");
+        System.out.println("-----------------------------------------------------------------");
+        System.out.printf("%-10s%-10s%-10s%-10s%-10s%-10s\n", "CRN", "Subject", "Course", "Section", "Days", "Times");
+
+        // Execute the query 
+        rs = s.executeQuery(queryString);
+
+        // This loops through the data contained in the ResultSet
         while (rs.next()) {
-            System.out.printf("%-10s%-10s%n", rs.getString(1), rs.getString(2), rs.getString(3), 
-                rs.getString(4), rs.getString(5), rs.getString(6));
+            // If the length of the value in column 5 (days) is 3
+
+            if (rs.getString(5).length() == 3) {
+                System.out.printf("%-10s%-10s%-10s%-10s%-10s%-10s\n", rs.getString(1), rs.getString(2), rs.getString(3),
+                        rs.getString(4), rs.getString(5), rs.getString(6));
+            }
         }
     }
+
+    // Method takes a ResultSet and writes the information to a CSV file using opencsv
+    public static void writeToCSV(ResultSet rs) throws SQLException, ClassNotFoundException {
+        // CSVWriter object, with methods to write information to CSV file
+        CSVWriter writer;
+        try {
+            // Create new file for the information
+            writer = new CSVWriter(new FileWriter("RESULTS.CSV"));
+
+            // writeAll() writes information to file, 'true' includes the headers from the query
+            writer.writeAll(rs, true);
+
+            // close stream
+            writer.close();
+        } catch (IOException ex) {
+            Logger.getLogger(DatabaseQuery.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    } // end writeToCSV()
+
 } // end DatabaseQuery

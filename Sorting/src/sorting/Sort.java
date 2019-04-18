@@ -1,6 +1,7 @@
 package sorting;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Random;
 import java.util.logging.Level;
@@ -17,22 +18,20 @@ public class Sort {
     private static long[] insertionTimes, bubbleTimes, selectionTimes;
     private static int exTimes; // number of times to sort the array
 
+    private static boolean isDone = false;
+
     private static PrintWriter p; // PriterWriter to write to file
 
-    
     // Length of the random integer array, number of times to execute algorithms
     Sort(int intSortLen, int exTimes) {
         // Initialize an empty array with this length
         intSort = new int[intSortLen];
-<<<<<<< HEAD
-        
+
         // Arrays that hold time ellapsed for each sort
-=======
->>>>>>> 921c995f101fcf7347342876a2be6bb607613a06
         insertionTimes = new long[intSort.length];
         bubbleTimes = new long[intSort.length];
         selectionTimes = new long[intSort.length];
-        
+
         // Holds the number of times the sort will be executed
         this.exTimes = exTimes;
 
@@ -44,21 +43,18 @@ public class Sort {
         }
     }
 
-    
     // Method will create random elements for the array created from the Sort object
     public static void createRandomIntArray() {
         Random r = new Random();
-        
+
         for (int i = 0; i < intSort.length; i++) {
             // Initialize a new random integer for each index of the array
             intSort[i] = r.nextInt(intSort.length);
         }
-        
-        // Notify background processes are working
-        System.out.println("Array created, sorting...");
+
+        System.out.print("Working..." + "\n");
     }
 
-    
     // Method sorts the array intSort with selection algorithm
     public static void selectionSort() {
         // Execute this method as many times as set 
@@ -66,7 +62,7 @@ public class Sort {
             createRandomIntArray();
 
             // Variable grabs the starting time at which the function is executed
-            long startTime = System.currentTimeMillis();
+            long passedTime, startTime = System.currentTimeMillis();
 
             // Count through the length of the array - 1
             for (int i = 0; i < intSort.length - 1; i++) {
@@ -86,20 +82,20 @@ public class Sort {
                 intSort[i] = temp;
             } // end for
 
-            long passedTime = System.currentTimeMillis() - startTime;
-            
-            for(int times = 0; times < selectionTimes.length; times++) {
+            passedTime = System.currentTimeMillis() - startTime;
+
+            for (int times = 0; times < selectionTimes.length; times++) {
                 selectionTimes[times] = passedTime;
             }
-            
-            writeResults(passedTime, "Selection " + k);
-            if(k == exTimes - 1) {
+
+            writeResults(passedTime, "Selection Sort #" + k);
+            if (k == exTimes - 1) {
                 writeAverage(selectionTimes);
+                isDone = true;
             }
         } // end for
     } // end selectionSort()
-   
-    
+
     // Method sorts the array intSort with bubble algorithm
     public static void bubbleSort() {
         // Execute this method as many times as set 
@@ -108,7 +104,7 @@ public class Sort {
             int min;
 
             // Variable grabs the starting time at which the function is executed
-            long startTime = System.currentTimeMillis();
+            long passedTime, startTime = System.currentTimeMillis();
 
             createRandomIntArray();
 
@@ -131,26 +127,25 @@ public class Sort {
                 } // end inner for 
             } // end outer for
 
-            long passedTime = System.currentTimeMillis() - startTime;
-            
-            for(int times = 0; times < bubbleTimes.length; times++) {
+            passedTime = System.currentTimeMillis() - startTime;
+
+            for (int times = 0; times < bubbleTimes.length; times++) {
                 bubbleTimes[times] = passedTime;
             }
 
-            writeResults(passedTime, "Bubble " + k);
-            if(k == exTimes - 1) {
+            writeResults(passedTime, "Bubble Sort #" + k);
+            if (k == exTimes - 1) {
                 writeAverage(bubbleTimes);
             }
         }
     } // end bubbleSort()
 
-    
     // Method sorts the array intSort with insertion algorithm
     public static void insertionSort() {
         // Execute this method as many times as set 
         for (int k = 0; k < exTimes; k++) {
             // Grab start time for the sort
-            long startTime = System.currentTimeMillis();
+            long passedTime, startTime = System.currentTimeMillis();
 
             // Initialize a random integer array
             createRandomIntArray();
@@ -172,41 +167,35 @@ public class Sort {
             }
 
             // Find time results
-            long passedTime = System.currentTimeMillis() - startTime;
-            
-            for(int times = 0; times < insertionTimes.length; times++) {
+            passedTime = System.currentTimeMillis() - startTime;
+
+            for (int times = 0; times < insertionTimes.length; times++) {
                 insertionTimes[times] = passedTime;
             }
 
             // Print results with time
-            writeResults(passedTime, "Insertion " + k);
-            if(k == exTimes - 1) {
+            writeResults(passedTime, "Insertion Sort #" + k);
+            if (k == (exTimes - 1)) {
                 writeAverage(insertionTimes);
             }
         }
     } // end insertionSort()
 
-    
     public static void writeAverage(long[] array) {
         long av = 0;
-        for(long l : array) {
+        for (long l : array) {
             av = av + l;
         }
-        
-        p.println("Average: " + (int) (av / array.length) + "ms");
+
+        p.println((int) (av / array.length) + " ms");
         p.flush();
     }
-    
+
     // Method will be called after sort is complete and write results to file
     public static void writeResults(long time, String type) {
         // If the time is less than 1 second write the miliseconds
-        if (time < 1000) {
-            String s = (type + " : " + time + "ms");
-            p.println(s);
-        } else { // Larger than 1 second, write seconds and miliseconds
-            String s = (type + " : " + (time / 1000) + "sec" + "\nTime: " + time + "ms");
-            p.println(s);
-        }
+        p.println(time + " ms " + type);
+
         // Flush stream
         p.flush();
     }

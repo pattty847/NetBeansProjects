@@ -15,28 +15,53 @@
 
 package mergesortdemo;
 
+import java.util.Random;
+
 public class MergeSortDemo {
+    
+    private static long startTime, endTime, result;
 
     public static void main(String[] arg) {
 
-        int[] a = {1, 6, 2, 5, 8, 4, 3, 9, 7}; // is an integer array
+        int[] a = new int[10000000];
         int[] temp = new int[a.length];     // empty temporary array, the same size and type as a[]
 
+        addRandomNumbers(a);
+        
         // display array before sorting
-        displayArray(a);
+        //displayArray(a);
         
         // sort the entire array
         mergeSort(a, temp, 0, (a.length - 1));
         
+        endTime = System.currentTimeMillis();
+        result = endTime - startTime;
+        
+        if (result < 1000) {
+            System.out.println("Result: " + result + "ms");
+        } else { // Larger than 1 second, write seconds and miliseconds
+            System.out.println("Result: " + (result/1000) + "sec" + "\n" + result + "ms");
+        }
+        
         // display array after sorting
-        displayArray(a);
+        // displayArray(a);
         
     }// end main()
     //*******************************************************************
+    
+    public static void addRandomNumbers(int[] i) {
+        Random r = new Random();
+        for(int j = 0; j < i.length; j++) {
+            i[j] = r.nextInt(i.length);
+        }
+    }
 
     public static void mergeSort(int[] a, int[] temp, int low, int high) {
+        startTime = System.currentTimeMillis();
         //  low is the low index of the part of the array to be sorted
         //  high is the high index of the part of the array to be sorted
+        
+        Random r = new Random();
         
         int mid;  // the middle of the array – last item in low half
         
@@ -46,15 +71,13 @@ public class MergeSortDemo {
             // split into two halves and mergeSort each part
 
             // find middle (last element in low half)   
-            mid = (low+high)/2;
+            mid = (low+high)/ 2;
             mergeSort(a, temp, low, mid );
             mergeSort(a, temp, mid+1, high);
             
             // merge the two halves back together, sorting while merging
             merge(a, temp, low, mid, high);
-        } // end if 
-
-        return;
+        } // end if        
     }// end mergerSort()
     //********************************************************************
     
@@ -122,14 +145,13 @@ public class MergeSortDemo {
                 aP++;
             }// end for
         
-        return;
     } // end merge()
     // *************************************************************
     
     public static void displayArray(int[] a) {
 
         for (int i = 0; i < a.length; i++) 
-            System.out.print(a[i] + " ");
+            System.out.print(a[i] + "\n");
         System.out.println();
         
     } // end displayArray()
