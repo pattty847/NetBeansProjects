@@ -1,7 +1,6 @@
 package sorting;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Random;
 import java.util.logging.Level;
@@ -16,14 +15,13 @@ public class Sort {
     // Variables
     private static int[] intSort; // int array to sort
     private static long[] insertionTimes, bubbleTimes, selectionTimes;
-    private static int exTimes; // number of times to sort the array
-
-    private static boolean isDone = false;
 
     private static PrintWriter p; // PriterWriter to write to file
 
     // Length of the random integer array, number of times to execute algorithms
-    Sort(int intSortLen, int exTimes) {
+    Sort(int intSortLen) {
+        System.out.print("Working..." + "\n");
+        
         // Initialize an empty array with this length
         intSort = new int[intSortLen];
 
@@ -31,9 +29,6 @@ public class Sort {
         insertionTimes = new long[intSort.length];
         bubbleTimes = new long[intSort.length];
         selectionTimes = new long[intSort.length];
-
-        // Holds the number of times the sort will be executed
-        this.exTimes = exTimes;
 
         // Attempts to create a new file to store the results (times) of each algorithm
         try {
@@ -51,12 +46,10 @@ public class Sort {
             // Initialize a new random integer for each index of the array
             intSort[i] = r.nextInt(intSort.length);
         }
-
-        System.out.print("Working..." + "\n");
     }
 
     // Method sorts the array intSort with selection algorithm
-    public static void selectionSort() {
+    public static void selectionSort(int exTimes) {
         // Execute this method as many times as set 
         for (int k = 0; k < exTimes; k++) {
             createRandomIntArray();
@@ -88,16 +81,15 @@ public class Sort {
                 selectionTimes[times] = passedTime;
             }
 
-            writeResults(passedTime, "Selection Sort #" + k);
+            writeResults(passedTime, ":2", exTimes);
             if (k == exTimes - 1) {
-                writeAverage(selectionTimes);
-                isDone = true;
+                writeAverage(selectionTimes, ":2");
             }
         } // end for
     } // end selectionSort()
 
     // Method sorts the array intSort with bubble algorithm
-    public static void bubbleSort() {
+    public static void bubbleSort(int exTimes) {
         // Execute this method as many times as set 
         for (int k = 0; k < exTimes; k++) {
             // Variable holding the smaller of the two numbers being examined 
@@ -133,15 +125,15 @@ public class Sort {
                 bubbleTimes[times] = passedTime;
             }
 
-            writeResults(passedTime, "Bubble Sort #" + k);
+            writeResults(passedTime, ":1", exTimes);
             if (k == exTimes - 1) {
-                writeAverage(bubbleTimes);
+                writeAverage(bubbleTimes, ":1");
             }
         }
     } // end bubbleSort()
 
     // Method sorts the array intSort with insertion algorithm
-    public static void insertionSort() {
+    public static void insertionSort(int exTimes) {
         // Execute this method as many times as set 
         for (int k = 0; k < exTimes; k++) {
             // Grab start time for the sort
@@ -174,27 +166,26 @@ public class Sort {
             }
 
             // Print results with time
-            writeResults(passedTime, "Insertion Sort #" + k);
+            writeResults(passedTime, ":3", exTimes);
             if (k == (exTimes - 1)) {
-                writeAverage(insertionTimes);
+                writeAverage(insertionTimes, ":3");
             }
         }
     } // end insertionSort()
 
-    public static void writeAverage(long[] array) {
+    public static void writeAverage(long[] array, String s) {
         long av = 0;
         for (long l : array) {
-            av = av + l;
+            av += l;
         }
 
-        p.println((int) (av / array.length) + " ms");
+        //p.println("* " + (int) (av / array.length) + s + " Average");
         p.flush();
     }
 
     // Method will be called after sort is complete and write results to file
-    public static void writeResults(long time, String type) {
-        // If the time is less than 1 second write the miliseconds
-        p.println(time + " ms " + type);
+    public static void writeResults(long time, String type, int exTimes) {
+        p.println(time + type + ":" + exTimes);
 
         // Flush stream
         p.flush();

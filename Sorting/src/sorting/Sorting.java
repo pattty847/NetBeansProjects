@@ -14,14 +14,15 @@ public class Sorting {
      * Sort(# of elements in array, # of times executed for each sort)
      */
     public static void main(String[] args) {
-        Sort newSort = new Sort(2000, 10);
+        Sort newSort = new Sort(10000);
         
-        newSort.insertionSort();
+        newSort.insertionSort(200);
         
-        newSort.bubbleSort();
+        newSort.bubbleSort(200);
         
-        newSort.selectionSort();
+        newSort.selectionSort(200);
         
+        NeuralNetwork nn = new NeuralNetwork();
         
     }
 }
